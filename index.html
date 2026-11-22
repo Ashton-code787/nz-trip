@@ -4,59 +4,92 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>紐西蘭南島自駕 · NZ South Island Road Trip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600&family=Noto+Serif+TC:wght@600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f5f1;--card:#fff;--ink:#1d2329;--mute:#6b7178;--line:#e3e1db;--acc:#0f7a6c;--acc2:#e0a526;--sea:#d9e8ef;--land:#eef0e6;--lake:#b9d6e3;--route:#9aa3a8}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181b;--card:#1d2226;--ink:#e8eaec;--mute:#9aa1a7;--line:#2c3237;--acc:#3cc2ad;--acc2:#f0b93a;--sea:#16232b;--land:#262c27;--lake:#2b4a59;--route:#5b6469}}
-[data-theme="dark"]{--bg:#14181b;--card:#1d2226;--ink:#e8eaec;--mute:#9aa1a7;--line:#2c3237;--acc:#3cc2ad;--acc2:#f0b93a;--sea:#16232b;--land:#262c27;--lake:#2b4a59;--route:#5b6469}
+:root{--bg:#f3efe7;--paper:#fbf9f5;--card:#ffffff;--ink:#1a2320;--ink2:#3d4844;--mute:#858a84;--line:#e4ded2;--acc:#0e5e57;--acc-soft:#e3eeeb;--gold:#b8862b;--stay:#5d4fb3;--ok:#2f7d4f;--warn:#a86a12;--no:#b23b2e;
+--serif:"Fraunces","Noto Serif TC",Georgia,serif;--sans:"Inter","Noto Sans TC",-apple-system,"PingFang TC",sans-serif;--sh:0 1px 2px rgba(26,35,32,.05),0 6px 20px -8px rgba(26,35,32,.14)}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1412;--paper:#151b19;--card:#1b2220;--ink:#ecefeb;--ink2:#c3cac5;--mute:#8b938e;--line:#2a332f;--acc:#5fc2b3;--acc-soft:#1d2e2b;--gold:#d9a94e;--stay:#a89cf0;--ok:#6cc48f;--warn:#e2a54a;--no:#ee7d70;--sh:0 1px 2px rgba(0,0,0,.3),0 8px 24px -10px rgba(0,0,0,.6)}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
-header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
-.top{display:flex;align-items:center;gap:12px;padding:12px 16px 6px}
-.top h1{font-size:17px;margin:0;flex:1;letter-spacing:.2px}
-.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
-.lang button{border:0;background:none;color:var(--mute);padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
-.lang button.on{background:var(--acc);color:#fff}
-.tabs{display:flex;gap:6px;overflow-x:auto;padding:6px 16px 10px;scrollbar-width:none}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.hero{position:relative;color:#f4f1ea;background:linear-gradient(160deg,#0b3d39 0%,#12544d 45%,#1d6b62 100%);overflow:hidden}
+.hero svg.mtn{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:120px;display:block}
+.hero-in{position:relative;max-width:1400px;margin:0 auto;padding:22px 24px 74px}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font:600 11px/1 var(--sans);letter-spacing:.28em;text-transform:uppercase;opacity:.75}
+.lang{display:flex;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:3px;backdrop-filter:blur(8px)}
+.lang button{border:0;background:none;color:#e8f0ee;padding:5px 13px;font:500 12.5px var(--sans);cursor:pointer;border-radius:999px;transition:.2s}
+.lang button.on{background:#f4f1ea;color:#0e3f3a}
+.hero h1{font:650 clamp(30px,5.2vw,54px)/1.08 var(--serif);letter-spacing:-.01em;margin:26px 0 10px}
+.hero p.sub{margin:0;font-size:14px;opacity:.85;letter-spacing:.02em}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chips span{font-size:12px;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18)}
+.tabbar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:2px;overflow-x:auto;padding:8px 18px;max-width:1400px;margin:0 auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tabs a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--card);border-radius:10px;padding:5px 10px;font-size:13px;text-align:center;line-height:1.2}
-.tabs a small{display:block;color:var(--mute);font-size:11px}
-.tabs a.on{background:var(--acc);border-color:var(--acc);color:#fff}
-.tabs a.on small{color:#e6fff9}
-main{display:grid;grid-template-columns:minmax(320px,440px) 1fr;gap:16px;padding:16px;max-width:1400px;margin:0 auto}
+.tabs a{flex:none;text-decoration:none;color:var(--mute);padding:6px 12px 8px;text-align:center;line-height:1.1;border-radius:12px;position:relative;transition:.2s}
+.tabs a b{display:block;font:500 19px/1.1 var(--serif);color:var(--ink2)}
+.tabs a small{font-size:10.5px;letter-spacing:.04em}
+.tabs a:hover{background:var(--paper)}
+.tabs a.on{background:var(--card);box-shadow:var(--sh)}
+.tabs a.on b{color:var(--acc)}
+.tabs a.on::after{content:"";position:absolute;left:30%;right:30%;bottom:3px;height:2px;border-radius:2px;background:var(--gold)}
+main{display:grid;grid-template-columns:minmax(340px,480px) 1fr;gap:28px;padding:28px 24px 40px;max-width:1400px;margin:0 auto}
 #list{min-width:0}
-#mapwrap{position:sticky;top:120px;height:calc(100vh - 140px);background:var(--sea);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
-svg{width:100%;height:100%;display:block}
-.dayhead h2{margin:0 0 2px;font-size:20px}
-.dayhead .meta{color:var(--mute);font-size:13px}
-.note{background:var(--card);border-left:3px solid var(--acc2);padding:8px 12px;border-radius:8px;margin:10px 0 12px;font-size:14px}
-.stop{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+#mapwrap{position:sticky;top:92px;height:calc(100vh - 116px);border-radius:22px;overflow:hidden;background:var(--paper);box-shadow:var(--sh);border:1px solid var(--line)}
+#mapwrap iframe{border:0;width:100%;height:100%;display:block}
+.eyebrow{font:600 11px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.dayhead h2{font:650 28px/1.2 var(--serif);margin:6px 0 4px;letter-spacing:-.005em}
+.note{position:relative;margin:16px 0 22px;padding:12px 16px 12px 18px;background:var(--paper);border-radius:14px;font-size:14px;color:var(--ink2);border:1px solid var(--line)}
+.note::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--gold)}
+.tl{position:relative;padding-left:34px}
+.tl::before{content:"";position:absolute;left:13px;top:18px;bottom:18px;width:2px;background:repeating-linear-gradient(var(--line) 0 6px,transparent 6px 10px)}
+.stop{position:relative;background:var(--card);border-radius:16px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--sh);cursor:pointer;transition:transform .2s,box-shadow .2s;border:1px solid transparent}
+.stop:hover{transform:translateY(-1px)}
 .stop.hl{border-color:var(--acc)}
-.num{flex:none;width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center}
-.stop.stay .num{background:#6b5bd2}.stop.star .num{background:var(--acc2);color:#222}
+.num{position:absolute;left:-34px;top:14px;width:28px;height:28px;border-radius:50%;background:var(--acc);color:#fff;font:600 12.5px var(--sans);display:grid;place-items:center;box-shadow:0 0 0 4px var(--bg)}
+.stop.stay .num{background:var(--stay)}.stop.star .num{background:var(--gold)}
+.stop.start{background:transparent;box-shadow:none;padding:6px 4px;cursor:default}
+.stop.start .num{background:var(--mute);font-size:10px}
+.stop.start .sname{color:var(--mute);font-weight:500;font-size:14px}
+.shead{display:flex;align-items:flex-start;gap:12px}
 .sbody{flex:1;min-width:0}
-.sname{font-weight:600}
-.stime{color:var(--mute);font-size:12px}
-.sdesc{font-size:13.5px;margin-top:4px;line-height:1.55}
-.sdr{font-size:12.5px;margin-top:5px;padding:5px 8px;border-radius:7px;background:color-mix(in srgb,var(--acc) 9%,transparent);line-height:1.5}
-.drbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-top:14px;font-size:13.5px}
-.drbox h3{margin:0 0 6px;font-size:15px}.drbox ul{margin:0;padding-left:18px}.drbox li{margin:3px 0}
-.nav{flex:none;text-decoration:none;background:var(--acc);color:#fff;border-radius:8px;padding:6px 10px;font-size:13px;white-space:nowrap}
-.route{display:block;text-align:center;text-decoration:none;border:1.5px solid var(--acc);color:var(--acc);border-radius:10px;padding:9px;font-weight:600;margin:6px 0 4px}
-.ov{display:grid;gap:8px}
-.ov a{display:flex;gap:10px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
-.ov b{flex:none;width:58px;color:var(--acc)}
-.foot{color:var(--mute);font-size:12px;margin-top:14px}
-.mk text{font-weight:700;fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none}
-.lbl{fill:var(--ink);paint-order:stroke;stroke:var(--sea);font-weight:600}
-@media (max-width:820px){main{grid-template-columns:1fr;padding:10px}#mapwrap{position:relative;top:0;height:46vh;order:-1}.top h1{font-size:15px}}
+.sname{font-weight:600;font-size:16px;line-height:1.35}
+.tag{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.06em;padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:2px}
+.tag.st{background:color-mix(in srgb,var(--stay) 14%,transparent);color:var(--stay)}
+.tag.hi{background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold)}
+.stime{color:var(--mute);font-size:12.5px;margin-top:2px}
+.sdesc{font-size:14px;margin-top:8px;line-height:1.65;color:var(--ink2)}
+.sdr{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;margin-top:10px;padding:8px 10px;border-radius:10px;line-height:1.5;background:var(--paper);border:1px solid var(--line)}
+.sdr i{font-style:normal;font-weight:700;font-size:10.5px;letter-spacing:.06em;padding:2px 7px;border-radius:6px;flex:none;margin-top:1px;color:#fff}
+.sdr.ok i{background:var(--ok)}.sdr.warn i{background:var(--warn)}.sdr.no i{background:var(--no)}
+.nav{flex:none;display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--acc);background:var(--acc-soft);border-radius:999px;padding:7px 12px;font:600 12.5px var(--sans);white-space:nowrap;transition:.2s}
+.nav:hover{background:var(--acc);color:#fff}
+.nav svg{width:14px;height:14px}
+.route{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;background:var(--ink);color:var(--bg);border-radius:14px;padding:13px;font-weight:600;font-size:14px;margin:18px 0 6px;transition:.2s}
+.route:hover{background:var(--acc);color:#fff}
+.ov{display:grid;gap:10px;margin-top:18px}
+.ov a{display:flex;align-items:center;gap:16px;text-decoration:none;background:var(--card);border-radius:16px;padding:14px 16px;box-shadow:var(--sh);transition:transform .2s}
+.ov a:hover{transform:translateX(3px)}
+.ov .n{font:500 30px/1 var(--serif);color:var(--acc);width:42px;flex:none;text-align:center}
+.ov .t{font-weight:600;font-size:14.5px;line-height:1.4}
+.ov .d{font-size:12px;color:var(--mute);margin-top:2px}
+.drbox{background:var(--card);border-radius:18px;padding:18px 20px;margin-top:22px;font-size:13.5px;box-shadow:var(--sh)}
+.drbox h3{margin:0 0 10px;font:650 18px var(--serif)}
+.drbox ul{margin:0;padding-left:18px;color:var(--ink2)}.drbox li{margin:6px 0}
+.foot{color:var(--mute);font-size:12px;margin-top:18px;text-align:center}
+@media (max-width:860px){main{grid-template-columns:1fr;padding:16px 14px 32px;gap:18px}#mapwrap{position:relative;top:0;height:42vh;order:-1;border-radius:18px}.hero-in{padding:18px 18px 64px}.hero h1{margin-top:20px}.dayhead h2{font-size:24px}.tabs{padding:8px 10px}}
 </style>
 </head>
 <body>
-<header>
- <div class="top"><h1 id="ttl"></h1>
-  <div class="lang"><button data-l="0">中文</button><button data-l="1">EN</button></div></div>
- <nav class="tabs" id="tabs"></nav>
+<header class="hero"><div class="hero-in">
+ <div class="toprow"><div class="brand">Aotearoa · New Zealand</div><div class="lang"><button data-l="0">中文</button><button data-l="1">EN</button></div></div>
+ <h1 id="ttl"></h1><p class="sub" id="sub"></p><div class="chips" id="chips"></div></div>
+ <svg class="mtn" viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 120V78l120-34 90 22 140-58 120 46 80-20 160 52 110-40 130 30 150-62 120 44 90-18 130 38V120z" fill="rgba(255,255,255,.07)"/><path d="M0 120V96l160-28 110 18 170-40 130 34 120-14 170 30 140-26 150 22 130-34 160 30V120z" fill="var(--bg)"/></svg>
 </header>
+<div class="tabbar"><nav class="tabs" id="tabs"></nav></div>
 <main>
  <section id="list"></section>
  <div id="mapwrap"><iframe id="gmap" style="border:0;width:100%;height:100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
@@ -148,11 +181,11 @@ const DAYS=[
 
 const EXTRA={"Christchurch Airport": {"d": ["取／還車。機場附近有超市，先買水和零食。", "Car pickup/return. Grab water and snacks at a supermarket nearby."], "dr": ["⛔ 機場管制空域，禁飛。", "⛔ Airport controlled airspace — no flying."]}, "Geraldine, New Zealand": {"d": ["坎特伯雷平原上的小鎮，適合休息、喝咖啡、加油。", "Small town on the Canterbury Plains — coffee, fuel and a break."], "dr": null}, "Church of the Good Shepherd, Lake Tekapo": {"d": ["湖邊的石砌小教堂。📸 傍晚從教堂側面拍湖色和遠山；夜裡拍教堂加銀河是經典構圖。夏天湖邊開滿魯冰花。", "Stone chapel on the lakeshore. 📸 Late afternoon from the side for the turquoise lake and peaks; at night shoot the church under the Milky Way. Lupins bloom along the shore in summer."], "dr": ["⛔ 教堂官方禁止空拍：這裡和整個 Tekapo 村都在機場 4 公里範圍內。", "⛔ No drones: the church and the whole village are within 4 km of Tekapo aerodrome."]}, "Dark Sky Project, Lake Tekapo": {"d": ["世界級的暗空保護區。夏天天黑得晚，觀星活動大約 22:30 之後。📸 帶腳架，手機開夜景模式也能拍到銀河。", "International Dark Sky Reserve. Summer nights start late (tours ~22:30+). 📸 Bring a tripod; phone night mode can catch the Milky Way."], "dr": null}, "Lakeview Tekapo, 6 Lochinver Ave, Lake Tekapo": {"d": ["住宿。", "Stay."], "dr": null}, "Peter's Lookout, Mount Cook Road": {"d": ["沿普卡基湖往庫克山的路上最經典的觀景點。📸 這裡拍得到牛奶藍的湖面接上庫克山，也可以站在公路中線拍延伸到雪山的直路，但要小心車。", "The classic viewpoint above Lake Pukaki on the road to Mt Cook. 📸 Milky-blue lake with Aoraki behind; the road-leading-to-the-mountain shot (mind the traffic)."], "dr": ["⚠️ 這裡不在國家公園內，但湖岸土地屬於 Meridian 電力公司，起飛前先用 AirShare 確認空域。", "⚠️ Outside the national park; lake land is Meridian's. Check AirShare before flying."]}, "White Horse Hill Campground, Aoraki Mount Cook": {"d": ["Hooker Valley Track 起點，來回約 10 公里、3 小時，路很平。📸 3 座吊橋、步道盡頭的 Hooker 湖（湖面常漂浮冰山）正對庫克山。清晨光線最好、人最少。", "Start of the Hooker Valley Track (10 km return, ~3 h, flat). 📸 Three swing bridges and Hooker Lake (often with icebergs) facing Aoraki — best and quietest at dawn."], "dr": ["⛔ 庫克山國家公園不發給一般遊客空拍許可，不能飛。", "⛔ Aoraki/Mt Cook National Park: no recreational drone permits."]}, "Tasman Glacier View Track car park": {"d": ["約 20–30 分鐘上坡的短步道，可以俯瞰紐西蘭最長的 Tasman 冰河和冰河湖。📸 從高處拍湖面上漂浮的冰山。", "20–30 min climb to views over NZ's longest glacier and its iceberg lake. 📸 Icebergs floating below from the lookout."], "dr": ["⛔ 國家公園內，禁飛。", "⛔ National park — no drones."]}, "Alps Motel Apartment Twizel": {"d": ["住宿。", "Stay."], "dr": ["⚠️ Twizel 小鎮在 Pukaki 機場和醫療直升機坪的 4 公里範圍附近，先查 AirShare。", "⚠️ Twizel is near Pukaki Airport and a medical helipad 4 km zone — check AirShare."]}, "Sealy Tarns Track, Aoraki Mount Cook": {"d": ["要爬約 2,200 級階梯，上去約 2–3 小時，很累但非常值得。📸 從高山小湖拍胡克谷和庫克山的倒影。", "~2,200 steps up (2–3 h) — tough but worth it. 📸 Alpine tarns reflecting Aoraki over the Hooker Valley."], "dr": ["⛔ 國家公園內，禁飛。", "⛔ National park — no drones."]}, "Mt Cook Alpine Salmon Lake Pukaki": {"d": ["湖邊的鮭魚店，生魚片很新鮮，直接看得到湖和庫克山。", "Salmon shop by the lake — fresh sashimi with Aoraki views."], "dr": ["⚠️ 普卡基湖岸可能適合空拍，拍得到湖色漸層，但先用 AirShare 查空域，也不要飛到人群上方。", "⚠️ Pukaki shoreline can work for lake-colour shots; check AirShare and keep clear of people."]}, "Lindis Pass Lookout": {"d": ["金黃色的草丘連綿起伏，是南島很有代表性的公路景色。📸 拍公路在草丘間蜿蜒的畫面。", "Rolling golden tussock hills — an iconic South Island road scene. 📸 The road snaking through the hills."], "dr": ["⚠️ 屬於 DOC 保護區，要先申請 DOC 空拍許可（綠區線上申請，當場核發）。", "⚠️ DOC scenic reserve — needs a DOC drone permit (green-zone permits issued online instantly)."]}, "Mount Iron Track, Wanaka": {"d": ["1.5 小時的環線步道，山頂可以 360 度看瓦納卡湖和整個小鎮。📸 夕陽時段最漂亮。", "1.5 h loop with 360° views of Lake Wanaka and town. 📸 Best at sunset."], "dr": ["⚠️ 可能在瓦納卡機場 4 公里範圍附近，先查 AirShare；議會土地也要符合 QLDC 規定。", "⚠️ May be near Wanaka Airport's 4 km zone — check AirShare and QLDC rules."]}, "That Wanaka Tree": {"d": ["長在湖水裡的柳樹，可能是紐西蘭被拍最多次的一棵樹。📸 日出或夕陽、無風時拍倒影；不要踩進水裡或爬樹。", "A willow growing in the lake — possibly NZ's most photographed tree. 📸 Sunrise/sunset with still water for reflections; don't climb it."], "dr": ["⚠️ 距離瓦納卡機場約 10 公里，但湖岸是 QLDC 議會土地，起飛前先查 QLDC 規定和 AirShare；人多時不要飛。", "⚠️ ~10 km from the airport, but the lakefront is QLDC land — check council rules and AirShare; don't fly over crowds."]}, "The Moorings Wanaka": {"d": ["住宿，走路就能到湖邊。", "Stay — walk to the lakefront."], "dr": null}, "Skydive Wanaka": {"d": ["從 15,000 呎跳下，看得到庫克山、瓦納卡湖和 Hawea 湖。📸 建議加購空中攝影師的照片和影片。", "Jump from 15,000 ft over Mt Aspiring, Lakes Wanaka & Hawea. 📸 Add the camera-flyer photo/video package."], "dr": ["⛔ 機場範圍，禁飛。", "⛔ Aerodrome — no flying."]}, "Crown Range Summit": {"d": ["紐西蘭最高的柏油公路，可以俯瞰皇后鎮盆地和箭鎮。📸 往下拍之字形的公路。", "NZ's highest sealed road, overlooking the Wakatipu basin. 📸 Zig-zag road from above."], "dr": ["⛔ Queenstown 機場說明 Crown Range 觀景點在進場航線下方的管制空域，禁飛。", "⛔ Queenstown Airport says the Crown Range lookout is in controlled airspace on the approach path — no flying."]}, "Arrowtown, New Zealand": {"d": ["19 世紀淘金小鎮，有保存下來的老街和華人礦工村遺址。📸 拍老街和河邊的步道。", "19th-century gold-rush town with heritage streets and a Chinese miners' settlement. 📸 Main street and riverside paths."], "dr": ["⚠️ 在 Queenstown 管制空域內或附近，未經航管許可不能飛。", "⚠️ In/near Queenstown controlled airspace — no flying without ATC approval."]}, "Skyline Queenstown": {"d": ["搭纜車上山，可以玩斜坡滑車（luge）。📸 從山頂俯瞰瓦卡蒂普湖和 Remarkables 山脈，傍晚最美。", "Gondola up, ride the luge. 📸 Lake Wakatipu & the Remarkables from the top — best near sunset."], "dr": ["⛔ 皇后鎮在機場管制空域內，禁飛。", "⛔ Queenstown town is controlled airspace — no flying."]}, "Fergburger Queenstown": {"d": ["超有名的大漢堡，可以先在網路上點餐再去拿。", "Famous giant burgers — order ahead online."], "dr": null}, "Queenstown Park Boutique Hotel": {"d": ["住宿。", "Stay."], "dr": null}, "Shotover Jet Queenstown": {"d": ["噴射快艇在峽谷岩壁間高速穿梭、做 360 度旋轉，會濕身。📸 業者有販售船上照片。", "Jet boat blasting through narrow canyons with 360° spins — you'll get wet. 📸 Onboard photos sold by the operator."], "dr": ["⛔ 在管制空域內，禁飛。", "⛔ Controlled airspace — no flying."]}, "Glenorchy, New Zealand": {"d": ["「通往天堂之路」的盡頭：湖邊開車 45 分鐘，風景超美。📸 一定要拍紅色木造船屋（Glenorchy Wharf Shed）和背後的雪山；沿路的 Bennetts Bluff 觀景點也很好拍。", "End of the 'road to paradise' (45 min lakeside drive). 📸 The red Glenorchy wharf shed with mountains behind; Bennetts Bluff lookout on the way."], "dr": ["⚠️ 小鎮旁有小機場，有 4 公里限制，飛前先查 AirShare；碼頭一帶是 QLDC 議會土地。", "⚠️ Glenorchy has an airstrip (4 km rule) — check AirShare; the wharf area is QLDC land."]}, "Te Anau Glowworm Caves": {"d": ["搭船進入洞穴，在黑暗中看滿天的藍色螢火蟲。📸 洞內禁止拍照。", "Boat into the caves to see glowworms in the dark. 📸 No photos allowed inside."], "dr": null}, "Te Anau Holiday House": {"d": ["住宿。", "Stay."], "dr": null}, "Mirror Lakes, Milford Road": {"d": ["木棧道走 5 分鐘。📸 無風的早晨可以拍到山的完美倒影，水面上的告示牌也會倒映出 'Mirror Lakes' 字樣。", "5-min boardwalk. 📸 On still mornings perfect mountain reflections (the sign reads correctly in the reflection)."], "dr": ["⛔ 峽灣國家公園目前已不再發空拍許可，禁飛。", "⛔ Fiordland NP is not issuing drone permits — no flying."]}, "Homer Tunnel": {"d": ["穿山的單線隧道，入口前的高山景色很壯觀，常常會看到 Kea 鸚鵡。📸 拍隧道口和兩旁的冰河地形；不要餵 Kea。", "Single-lane tunnel through the Darran Mountains; dramatic alpine scenery and cheeky kea. 📸 Tunnel portal and glacial walls; don't feed the kea."], "dr": ["⛔ 國家公園內，禁飛。", "⛔ National park — no drones."]}, "Milford Sound Visitor Terminal": {"d": ["搭遊船進峽灣，看麥特峰（Mitre Peak），船還會開到瀑布底下讓你淋濕。📸 拍麥特峰的倒影；下雨天反而會多出幾百條瀑布。", "Cruise to see Mitre Peak and get soaked under waterfalls. 📸 Mitre Peak reflections; rainy days bring hundreds of waterfalls."], "dr": ["⛔ 國家公園內，禁飛。", "⛔ National park — no drones."]}, "Blue Pools Track car park, Haast Pass": {"d": ["走 15 分鐘森林步道、過兩座吊橋，就能看到冰川水匯成的藍綠色深潭。📸 從吊橋往下拍清澈的藍水和鱒魚。注意沙蠅很多。", "15-min forest walk and swing bridges to glacier-blue pools. 📸 Shoot down from the bridge into clear blue water and trout. Bring sandfly repellent."], "dr": ["⛔ Mt Aspiring 國家公園內，禁飛。", "⛔ Mt Aspiring NP — no drones."]}, "Thunder Creek Falls": {"d": ["路邊走 5 分鐘就到，96 公尺高的瀑布。📸 適合用慢速快門拍絲絹般的水流。", "5-min walk to a 96 m waterfall. 📸 Slow shutter for silky water."], "dr": ["⛔ 國家公園內，禁飛。", "⛔ National park — no drones."]}, "Rainforest Retreat Franz Josef": {"d": ["住宿，在雨林裡。", "Stay — set in rainforest."], "dr": null}, "Franz Josef Glacier Guides": {"d": ["搭直升機上冰河，在藍冰洞和冰縫間健行。📸 拍藍冰、冰洞，還有從直升機上往下看的冰河全景。", "Helicopter up onto the glacier to hike among blue ice caves and crevasses. 📸 Blue ice, caves, and aerial views from the heli."], "dr": ["⛔ 冰河在國家公園內，而且直升機很多，禁飛。", "⛔ National park with busy heli traffic — no drones."]}, "Glacier Hot Pools Franz Josef": {"d": ["雨林裡的露天溫泉，健行後放鬆。", "Rainforest hot pools — perfect after the hike."], "dr": null}, "Lake Matheson": {"d": ["環湖步道約 1.5 小時。📸 無風時湖面像鏡子，能拍到庫克山和 Tasman 山的倒影；清晨或傍晚最好，Reflection Island 觀景點最經典。", "1.5 h loop. 📸 Mirror reflections of Aoraki & Mt Tasman on calm mornings/evenings — the 'Reflection Island' viewpoint is the classic."], "dr": ["⛔ 國家公園內，空拍需要 DOC 許可，一般不建議申請。", "⛔ Westland NP area — DOC permit required; not recommended."]}, "Hokitika Gorge": {"d": ["牛奶藍綠色的河水穿過峽谷，有吊橋。📸 晴天時從吊橋和河邊的石灘拍水色最漂亮。", "Milky turquoise river through a gorge with a swing bridge. 📸 Best colour on sunny days from the bridge and riverbank."], "dr": ["⚠️ 屬於 DOC 保護區，要先申請 DOC 空拍許可。", "⚠️ DOC scenic reserve — needs a DOC drone permit."]}, "Hokitika, New Zealand": {"d": ["綠玉（pounamu）之鄉，可以買玉石。📸 海灘上有漂流木拼成的 Hokitika 字樣，夕陽時很好拍。", "Pounamu (greenstone) town. 📸 The driftwood 'HOKITIKA' sign on the beach at sunset."], "dr": ["⚠️ 小鎮在 Hokitika 機場 4 公里範圍內，起飛前先查 AirShare。", "⚠️ Town is within 4 km of Hokitika Airport — check AirShare."]}, "Pancake Rocks and Blowholes, Punakaiki": {"d": ["像一疊疊鬆餅的石灰岩層，漲潮時海水會從噴水洞噴出。📸 約 20 分鐘的環形步道，夕陽時段很好拍；先查好當天的潮汐時間。", "Layered 'pancake' limestone; blowholes erupt near high tide. 📸 20-min loop; great at sunset — check tide times."], "dr": ["⛔ Paparoa 國家公園內，禁飛。", "⛔ Paparoa NP — no drones."]}, "Cliffscapes Punakaiki": {"d": ["住宿，可以看海。", "Stay — ocean views."], "dr": null}, "Devil's Punchbowl Falls, Arthur's Pass": {"d": ["來回約 1 小時，131 公尺高的瀑布。📸 從瀑布前的觀景台往上拍。", "1 h return to a 131 m waterfall. 📸 Shoot upward from the viewing platform."], "dr": ["⛔ Arthur's Pass 國家公園內，禁飛。", "⛔ Arthur's Pass NP — no drones."]}, "Castle Hill Kura Tawhiti": {"d": ["草原上散落著巨大的石灰岩，像外星世界。📸 用廣角拍人站在巨石之間，傍晚光影最立體。", "Giant limestone boulders on tussock hills. 📸 Wide shots with people among the rocks; golden hour gives the best shadows."], "dr": ["⚠️ 屬於 DOC 保護區，要先申請 DOC 空拍許可；這裡也是毛利族聖地，請尊重。", "⚠️ DOC conservation area — permit needed; also a site sacred to Ngāi Tahu, be respectful."]}, "Christchurch Botanic Gardens": {"d": ["雅芳河畔的大型植物園，可以搭平底船（punting）遊河。📸 拍玫瑰園和河上撐篙的平底船。", "Big gardens on the Avon; try punting. 📸 Rose garden and punts on the river."], "dr": ["⚠️ 市區在基督城機場的管制空域範圍，基本上不能飛，先查 AirShare。", "⚠️ City is under Christchurch controlled airspace — generally no flying; check AirShare."]}, "Riverside Market Christchurch": {"d": ["室內美食市集，晚餐的好選擇。", "Indoor food market — great for dinner."], "dr": null}, "The Observatory Hotel Christchurch": {"d": ["住宿，就在藝術中心旁邊。", "Stay — next to the Arts Centre."], "dr": null}};
 
-const UI={ttl:["紐西蘭南島自駕 2027","NZ South Island Road Trip 2027"],ov:["總覽","Overview"],day:["第{n}天","Day {n}"],
+const UI={ttl:["紐西蘭南島・自駕之旅","South Island Road Trip"],sub:["2027.01.30 — 02.14　基督城進出・環島一圈","30 Jan — 14 Feb 2027　Round trip from Christchurch"],chips:[["🗓 15 天","🏔 庫克山・峽灣・冰河","🪂 跳傘＋冰河直升機","🚗 全程自駕"],["🗓 15 days","🏔 Aoraki · Fiordland · Glaciers","🪂 Skydive + heli-hike","🚗 Self-drive"]],ove:["15 天行程","15-day itinerary"],ov:["總覽","Overview"],day:["第{n}天","Day {n}"],
  drh:["🚁 紐西蘭空拍規則（出發前必看）","🚁 NZ drone rules (read before you go)"],
  dr:[["每次起飛前用 <b>AirShare</b> App／網站查空域並登記飛行。","最高 120 公尺、全程目視、只在白天飛。","不能飛越人群或私人土地上空，除非取得同意。","機場／直升機坪 4 公里內、管制空域（皇后鎮、基督城市區）禁飛。","<b>國家公園</b>（庫克山、峽灣、Mt Aspiring、Paparoa、Arthur's Pass）基本上不發許可，等於禁飛。","DOC 保護區（Lindis Pass、Hokitika Gorge、Castle Hill）要先在 DOC 網站申請許可，綠區線上即時核發。","議會土地（瓦納卡湖岸等）依各地議會規定。","野鳥至少保持 50 公尺距離。"],
  ["Check airspace and log every flight on <b>AirShare</b>.","Max 120 m, visual line of sight, daylight only.","No flying over people or private land without consent.","No flying within 4 km of aerodromes/helipads or in controlled airspace (Queenstown, Christchurch city).","<b>National parks</b> (Aoraki, Fiordland, Mt Aspiring, Paparoa, Arthur's Pass) — effectively off-limits.","DOC reserves (Lindis Pass, Hokitika Gorge, Castle Hill) need a DOC permit — green zones issued online instantly.","Council land (e.g. Wanaka lakefront) follows local council rules.","Stay 50 m+ away from birds."]],
- nav:["導航","Navigate"],from:["出發：","Start: "],route:["🗺 整天路線開啟 Google Maps","🗺 Open day route in Google Maps"],
+ nav:["導航","Navigate"],from:["出發：","Start: "],route:["整天路線 · 在 Google Maps 開啟","Open full day route in Google Maps"],
  ovh:["行程總覽","Trip overview"],ovm:["1/30 – 2/14 · 基督城進出 · 15 天","Jan 30 – Feb 14 · in/out Christchurch · 15 days"],
  foot:["點「導航」會開啟 Google Maps App 開始導航。點景點卡片可在地圖上單獨顯示，再點一次回到整天路線。","“Navigate” opens the Google Maps app with directions. Tap a stop card to show it on the map; tap again for the day route."]};
 let L=0;try{L=+localStorage.getItem('nzlang')||0}catch(e){}
@@ -168,18 +201,21 @@ const T=x=>Array.isArray(x)?x[L]:x;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function startOf(c){if(c<2)return null;const p=DAYS[c-2].s[DAYS[c-2].s.length-1],f=DAYS[c-1].s[0];return p.q===f.q?null:p}
 function cur(){const m=location.hash.match(/^#day-(\d+)$/);return m&&+m[1]>=1&&+m[1]<=DAYS.length?+m[1]:0}
-function tabs(c){document.getElementById('tabs').innerHTML=`<a href="#overview" class="${c?'':'on'}">${UI.ov[L]}<small>1/30–2/14</small></a>`+
- DAYS.map((d,i)=>`<a href="#day-${i+1}" class="${c===i+1?'on':''}">${UI.day[L].replace('{n}',i+1)}<small>${d.d} ${d.w[L]}</small></a>`).join('');
+function tabs(c){document.getElementById('tabs').innerHTML=`<a href="#overview" class="${c?'':'on'}"><b>✦</b><small>${UI.ov[L]}</small></a>`+
+ DAYS.map((d,i)=>`<a href="#day-${i+1}" class="${c===i+1?'on':''}"><b>${String(i+1).padStart(2,'0')}</b><small>${d.d} ${d.w[L]}</small></a>`).join('');
  const on=document.querySelector('.tabs a.on');on&&on.scrollIntoView({inline:'center',block:'nearest'})}
+const ARW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>';
+function drone(t){const m={'✅':['ok',L?'OK':'可飛'],'⚠️':['warn',L?'CHECK':'先查'],'⛔':['no',L?'NO FLY':'禁飛']};const k=Object.keys(m).find(x=>t.startsWith(x));if(!k)return'';return `<div class="sdr ${m[k][0]}"><i>🚁 ${m[k][1]}</i><span>${esc(t.slice(k.length).trim())}</span></div>`}
 function list(c){const el=document.getElementById('list');
- if(!c){el.innerHTML=`<div class="dayhead"><h2>${UI.ovh[L]}</h2><div class="meta">${UI.ovm[L]}</div></div><div class="ov" style="margin-top:12px">`+
-  DAYS.map((d,i)=>`<a href="#day-${i+1}"><b>D${i+1}<br><span style="font-weight:400;color:var(--mute);font-size:12px">${d.d} ${d.w[L]}</span></b><span>${esc(d.t[L])}</span></a>`).join('')+`</div><div class="drbox"><h3>${UI.drh[L]}</h3><ul>${UI.dr[L].map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="foot">${UI.foot[L]}</div>`;return}
- const d=DAYS[c-1];
- const so=startOf(c);el.innerHTML=`<div class="dayhead"><h2>${UI.day[L].replace('{n}',c)} · ${d.d}（${d.w[L]}）</h2><div class="meta">${esc(d.t[L])}</div></div>
- <div class="note">${esc(d.note[L])}</div>`+(so?`<div class="stop" data-i="-1" style="opacity:.75"><div class="num" style="background:var(--mute)">▶</div><div class="sbody"><div class="sname">${esc(UI.from[L])}${esc(T(so.n).replace(/^住宿：|^Stay: /,''))}</div></div></div>`:'')+
- d.s.map((s,i)=>`<div class="stop${s.stay?' stay':''}${s.star?' star':''}" data-i="${i}"><div class="num">${i+1}</div><div class="sbody"><div class="sname">${esc(T(s.n))}</div>${s.tm?`<div class="stime">🕒 ${esc(T(s.tm))}</div>`:''}${(X=EXTRA[s.q])&&!/^(住宿。|Stay\.)$/.test(X.d[L])?`<div class="sdesc">${esc(X.d[L])}</div>`:''}${X&&X.dr?`<div class="sdr">🚁 ${esc(X.dr[L])}</div>`:''}</div><a class="nav" href="${navURL(s.q)}" target="_blank" rel="noopener">➤ ${UI.nav[L]}</a></div>`).join('')+
- (d.s.length>1||startOf(c)?`<a class="route" href="${routeURL((startOf(c)?[startOf(c)]:[]).concat(d.s))}" target="_blank" rel="noopener">${UI.route[L]}</a>`:'')+`<div class="foot">${UI.foot[L]}</div>`;
- el.querySelectorAll('.stop').forEach(n=>{n.onclick=e=>{if(e.target.closest('a'))return;const i=+n.dataset.i;focus=focus===i?-1:i;hi(focus);map(cur())}})}
+ if(!c){el.innerHTML=`<div class="dayhead"><div class="eyebrow">${UI.ove[L]}</div><h2>${UI.ovh[L]}</h2></div><div class="ov">`+
+  DAYS.map((d,i)=>`<a href="#day-${i+1}"><div class="n">${String(i+1).padStart(2,'0')}</div><div><div class="t">${esc(d.t[L])}</div><div class="d">${d.d} · ${d.w[L]}</div></div></a>`).join('')+`</div><div class="drbox"><h3>${UI.drh[L]}</h3><ul>${UI.dr[L].map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="foot">${UI.foot[L]}</div>`;return}
+ const d=DAYS[c-1],so=startOf(c);
+ el.innerHTML=`<div class="dayhead"><div class="eyebrow">${L?'Day':'第'} ${String(c).padStart(2,'0')}${L?'':' 天'} · ${d.d} ${d.w[L]}</div><h2>${esc(d.t[L])}</h2></div>
+ <div class="note">${esc(d.note[L])}</div><div class="tl">`+(so?`<div class="stop start" data-i="-1"><div class="num">▶</div><div class="sname">${esc(UI.from[L])}${esc(T(so.n).replace(/^住宿：|^Stay: /,''))}</div></div>`:'')+
+ d.s.map((s,i)=>{X=EXTRA[s.q];const nm=T(s.n).replace(/^住宿：|^Stay: /,'');const desc=X&&!/^(住宿。|Stay\.)$/.test(X.d[L])?X.d[L]:'';
+  return `<div class="stop${s.stay?' stay':''}${s.star?' star':''}" data-i="${i}"><div class="num">${i+1}</div><div class="shead"><div class="sbody"><div class="sname">${esc(nm)}${s.stay?`<span class="tag st">${L?'STAY':'住宿'}</span>`:''}${s.star?`<span class="tag hi">${L?'HIGHLIGHT':'重點'}</span>`:''}</div>${s.tm?`<div class="stime">${esc(T(s.tm))}</div>`:''}</div><a class="nav" href="${navURL(s.q)}" target="_blank" rel="noopener">${ARW}${UI.nav[L]}</a></div>${desc?`<div class="sdesc">${esc(desc)}</div>`:''}${X&&X.dr?drone(X.dr[L]):''}</div>`}).join('')+`</div>`+
+ (d.s.length>1||so?`<a class="route" href="${routeURL((so?[so]:[]).concat(d.s))}" target="_blank" rel="noopener">${ARW}${UI.route[L]}</a>`:'')+`<div class="foot">${UI.foot[L]}</div>`;
+ el.querySelectorAll('.stop:not(.start)').forEach(n=>{n.onclick=e=>{if(e.target.closest('a'))return;const i=+n.dataset.i;focus=focus===i?-1:i;hi(focus);map(cur())}})}
 let focus=-1,X;
 function map(c){const f=document.getElementById('gmap');const hl=L?'en':'zh-TW';const nz=q=>enc(q+', New Zealand');let u;
  if(!c){u=`https://www.google.com/maps?q=${enc('South Island, New Zealand')}&z=7&hl=${hl}&output=embed`}
@@ -187,11 +223,11 @@ function map(c){const f=document.getElementById('gmap');const hl=L?'en':'zh-TW';
   else{const so=startOf(c);const st=(so?[so]:[]).concat(d.s);const q=[];st.forEach(s=>{if(q[q.length-1]!==s.q)q.push(s.q)});
    u=q.length<2?`https://www.google.com/maps?q=${nz(q[0])}&z=12&hl=${hl}&output=embed`:`https://www.google.com/maps?saddr=${nz(q[0])}&daddr=${q.slice(1).map(nz).join('+to:')}&hl=${hl}&output=embed`}}
  if(f.getAttribute('src')!==u)f.setAttribute('src',u)}
-function hi(i){document.querySelectorAll('.stop').forEach((n,j)=>n.classList.toggle('hl',j===i))}
-function render(){const c=cur();document.documentElement.lang=L?'en':'zh-Hant';document.getElementById('ttl').textContent=UI.ttl[L];document.title=UI.ttl[L];
+function hi(i){document.querySelectorAll('.stop').forEach(n=>n.classList.toggle('hl',+n.dataset.i===i&&i>=0))}
+function render(){const c=cur();document.documentElement.lang=L?'en':'zh-Hant';document.getElementById('ttl').textContent=UI.ttl[L];document.getElementById('sub').textContent=UI.sub[L];document.getElementById('chips').innerHTML=UI.chips[L].map(x=>`<span>${x}</span>`).join('');document.title=UI.ttl[L];
  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',+b.dataset.l===L));tabs(c);list(c);map(c)}
 document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>{L=+b.dataset.l;try{localStorage.setItem('nzlang',L)}catch(e){}render()});
-window.addEventListener('hashchange',()=>{focus=-1;render();window.scrollTo(0,0)});
+window.addEventListener('hashchange',()=>{focus=-1;render();(document.querySelector('.tabbar').getBoundingClientRect().top<0||scrollY>document.querySelector('.hero').offsetHeight)&&window.scrollTo({top:document.querySelector('.hero').offsetHeight,behavior:'smooth'})});
 render();
 </script>
 </body>
