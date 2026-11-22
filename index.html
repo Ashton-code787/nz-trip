@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>紐西蘭南島自駕 · NZ South Island Road Trip</title>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--ink:#1d2329;--mute:#6b7178;--line:#e3e1db;--acc:#0f7a6c;--acc2:#e0a526;--sea:#d9e8ef;--land:#eef0e6;--lake:#b9d6e3;--route:#9aa3a8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181b;--card:#1d2226;--ink:#e8eaec;--mute:#9aa1a7;--line:#2c3237;--acc:#3cc2ad;--acc2:#f0b93a;--sea:#16232b;--land:#262c27;--lake:#2b4a59;--route:#5b6469}}
+[data-theme="dark"]{--bg:#14181b;--card:#1d2226;--ink:#e8eaec;--mute:#9aa1a7;--line:#2c3237;--acc:#3cc2ad;--acc2:#f0b93a;--sea:#16232b;--land:#262c27;--lake:#2b4a59;--route:#5b6469}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;gap:12px;padding:12px 16px 6px}
+.top h1{font-size:17px;margin:0;flex:1;letter-spacing:.2px}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:none;color:var(--mute);padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.lang button.on{background:var(--acc);color:#fff}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:6px 16px 10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--card);border-radius:10px;padding:5px 10px;font-size:13px;text-align:center;line-height:1.2}
+.tabs a small{display:block;color:var(--mute);font-size:11px}
+.tabs a.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.tabs a.on small{color:#e6fff9}
+main{display:grid;grid-template-columns:minmax(320px,440px) 1fr;gap:16px;padding:16px;max-width:1400px;margin:0 auto}
+#list{min-width:0}
+#mapwrap{position:sticky;top:120px;height:calc(100vh - 140px);background:var(--sea);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+svg{width:100%;height:100%;display:block}
+.dayhead h2{margin:0 0 2px;font-size:20px}
+.dayhead .meta{color:var(--mute);font-size:13px}
+.note{background:var(--card);border-left:3px solid var(--acc2);padding:8px 12px;border-radius:8px;margin:10px 0 12px;font-size:14px}
+.stop{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.stop.hl{border-color:var(--acc)}
+.num{flex:none;width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center}
+.stop.stay .num{background:#6b5bd2}.stop.star .num{background:var(--acc2);color:#222}
+.sbody{flex:1;min-width:0}
+.sname{font-weight:600}
+.stime{color:var(--mute);font-size:12px}
+.sdesc{font-size:13.5px;margin-top:4px;line-height:1.55}
+.sdr{font-size:12.5px;margin-top:5px;padding:5px 8px;border-radius:7px;background:color-mix(in srgb,var(--acc) 9%,transparent);line-height:1.5}
+.drbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-top:14px;font-size:13.5px}
+.drbox h3{margin:0 0 6px;font-size:15px}.drbox ul{margin:0;padding-left:18px}.drbox li{margin:3px 0}
+.nav{flex:none;text-decoration:none;background:var(--acc);color:#fff;border-radius:8px;padding:6px 10px;font-size:13px;white-space:nowrap}
+.route{display:block;text-align:center;text-decoration:none;border:1.5px solid var(--acc);color:var(--acc);border-radius:10px;padding:9px;font-weight:600;margin:6px 0 4px}
+.ov{display:grid;gap:8px}
+.ov a{display:flex;gap:10px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.ov b{flex:none;width:58px;color:var(--acc)}
+.foot{color:var(--mute);font-size:12px;margin-top:14px}
+.mk text{font-weight:700;fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.lbl{fill:var(--ink);paint-order:stroke;stroke:var(--sea);font-weight:600}
+@media (max-width:820px){main{grid-template-columns:1fr;padding:10px}#mapwrap{position:relative;top:0;height:46vh;order:-1}.top h1{font-size:15px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><h1 id="ttl"></h1>
+  <div class="lang"><button data-l="0">中文</button><button data-l="1">EN</button></div></div>
+ <nav class="tabs" id="tabs"></nav>
+</header>
+<main>
+ <section id="list"></section>
+ <div id="mapwrap"><iframe id="gmap" style="border:0;width:100%;height:100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+</main>
+<script>
+const DAYS=[
+{d:"1/30",w:["六","Sat"],t:["出發：台北 → 香港 → 基督城","Depart: Taipei → Hong Kong → Christchurch"],
+ note:["CX421 TPE 17:00 → HKG 19:05；CX119 HKG 20:40 → CHC 1/31 12:50","CX421 TPE 17:00 → HKG 19:05; CX119 HKG 20:40 → CHC 1/31 12:50"],
+ s:[{n:["基督城機場（隔天中午抵達）","Christchurch Airport (arrive next day noon)"],q:"Christchurch Airport",ll:[-43.4894,172.5322],tm:"1/31 12:50"}]},
+{d:"1/31",w:["日","Sun"],t:["基督城 → 蒂卡波湖（約 230 km / 3 小時）","Christchurch → Lake Tekapo (~230 km / 3 h)"],
+ note:["取車後出發，Geraldine 可停下休息買補給。晚上觀星。","Pick up the car; optional break at Geraldine. Stargazing tonight."],
+ s:[{n:["基督城機場（取車）","Christchurch Airport (car pickup)"],q:"Christchurch Airport",ll:[-43.4894,172.5322],tm:"13:30"},
+ {n:["Geraldine 小鎮（選擇性）","Geraldine (optional)"],q:"Geraldine, New Zealand",ll:[-44.0906,171.2444]},
+ {n:["好牧人教堂","Church of the Good Shepherd"],q:"Church of the Good Shepherd, Lake Tekapo",ll:[-44.0045,170.4776]},
+ {n:["Dark Sky Project 觀星","Dark Sky Project stargazing"],q:"Dark Sky Project, Lake Tekapo",ll:[-44.0048,170.479],tm:["晚上","Night"]},
+ {n:["住宿：Lakeview Tekapo","Stay: Lakeview Tekapo"],q:"Lakeview Tekapo, 6 Lochinver Ave, Lake Tekapo",ll:[-44.003,170.47],stay:1}]},
+{d:"2/1",w:["一","Mon"],t:["蒂卡波 → 庫克山 → 特威澤爾","Tekapo → Aoraki/Mt Cook → Twizel"],
+ note:["Hooker Valley Track 來回約 3 小時，早出發避開人潮。","Hooker Valley Track ~3 h return; start early to beat the crowds."],
+ s:[{n:["Peter's Lookout 觀景點","Peter's Lookout"],q:"Peter's Lookout, Mount Cook Road",ll:[-44.096,170.17]},
+ {n:["Hooker Valley Track（White Horse Hill 停車場）","Hooker Valley Track (White Horse Hill car park)"],q:"White Horse Hill Campground, Aoraki Mount Cook",ll:[-43.7186,170.0935]},
+ {n:["Tasman Glacier View","Tasman Glacier View"],q:"Tasman Glacier View Track car park",ll:[-43.695,170.18]},
+ {n:["住宿：Alps Motel Apartment Twizel","Stay: Alps Motel Apartment Twizel"],q:"Alps Motel Apartment Twizel",ll:[-44.259,170.099],stay:1}]},
+{d:"2/2",w:["二","Tue"],t:["庫克山彈性日（看天氣）","Mt Cook weather buffer day"],
+ note:["天氣好就上 Sealy Tarns；回程吃鮭魚。","If clear, hike Sealy Tarns; salmon on the way back."],
+ s:[{n:["Sealy Tarns 步道","Sealy Tarns Track"],q:"Sealy Tarns Track, Aoraki Mount Cook",ll:[-43.716,170.09]},
+ {n:["Tasman Glacier","Tasman Glacier"],q:"Tasman Glacier View Track car park",ll:[-43.695,170.18]},
+ {n:["Mt Cook Alpine Salmon（普卡基湖）","Mt Cook Alpine Salmon (Lake Pukaki)"],q:"Mt Cook Alpine Salmon Lake Pukaki",ll:[-44.185,170.145]},
+ {n:["住宿：特威澤爾","Stay: Twizel"],q:"Alps Motel Apartment Twizel",ll:[-44.259,170.099],stay:1}]},
+{d:"2/3",w:["三","Wed"],t:["特威澤爾 → 瓦納卡（約 1 小時 45 分）","Twizel → Wanaka (~1 h 45 min)"],
+ note:["經 Lindis Pass，傍晚去拍那棵樹。","Via Lindis Pass; shoot That Wanaka Tree at sunset."],
+ s:[{n:["Lindis Pass 觀景點","Lindis Pass lookout"],q:"Lindis Pass Lookout",ll:[-44.586,169.649]},
+ {n:["Mt Iron 步道","Mt Iron Track"],q:"Mount Iron Track, Wanaka",ll:[-44.6964,169.1637]},
+ {n:["That Wanaka Tree","That Wanaka Tree"],q:"That Wanaka Tree",ll:[-44.6971,169.121],tm:["傍晚","Sunset"]},
+ {n:["住宿：The Moorings Wanaka","Stay: The Moorings Wanaka"],q:"The Moorings Wanaka",ll:[-44.6985,169.13],stay:1}]},
+{d:"2/4",w:["四","Thu"],t:["★ 瓦納卡跳傘","★ Skydive Wanaka"],
+ note:["7:30 打 +64 3 443 7207 確認天氣。報到 8:10、跳 8:30。","Call +64 3 443 7207 at 7:30 for weather. Check in 8:10, jump 8:30."],
+ s:[{n:["Skydive Wanaka（瓦納卡機場）","Skydive Wanaka (Wanaka Airport)"],q:"Skydive Wanaka",ll:[-44.7222,169.2458],tm:"8:10",star:1},
+ {n:["住宿：The Moorings Wanaka","Stay: The Moorings Wanaka"],q:"The Moorings Wanaka",ll:[-44.6985,169.13],stay:1}]},
+{d:"2/5",w:["五","Fri"],t:["瓦納卡 → 皇后鎮（經皇冠山脈）","Wanaka → Queenstown (via Crown Range)"],
+ note:["Fergburger 排隊時間長，可先線上點。","Fergburger queues are long — order ahead online."],
+ s:[{n:["皇冠山脈觀景點","Crown Range Summit lookout"],q:"Crown Range Summit",ll:[-44.934,168.887]},
+ {n:["箭鎮 Arrowtown","Arrowtown"],q:"Arrowtown, New Zealand",ll:[-44.9417,168.8306]},
+ {n:["Skyline 纜車","Skyline Queenstown gondola"],q:"Skyline Queenstown",ll:[-45.0302,168.6519]},
+ {n:["Fergburger","Fergburger"],q:"Fergburger Queenstown",ll:[-45.0322,168.6586]},
+ {n:["住宿：Queenstown Park Boutique Hotel","Stay: Queenstown Park Boutique Hotel"],q:"Queenstown Park Boutique Hotel",ll:[-45.028,168.655],stay:1}]},
+{d:"2/6",w:["六","Sat"],t:["皇后鎮：噴射快艇 + 格倫諾基","Queenstown: Shotover Jet + Glenorchy"],
+ note:["懷唐伊日（國定假日）＋農曆新年，店家可能加價或休息。","Waitangi Day (public holiday) + Lunar New Year — expect surcharges/closures."],
+ s:[{n:["Shotover Jet","Shotover Jet"],q:"Shotover Jet Queenstown",ll:[-44.988,168.685]},
+ {n:["格倫諾基 Glenorchy","Glenorchy"],q:"Glenorchy, New Zealand",ll:[-44.8506,168.3878]},
+ {n:["住宿：Queenstown Park Boutique Hotel","Stay: Queenstown Park Boutique Hotel"],q:"Queenstown Park Boutique Hotel",ll:[-45.028,168.655],stay:1}]},
+{d:"2/7",w:["日","Sun"],t:["皇后鎮 → 蒂阿瑙（約 2 小時）","Queenstown → Te Anau (~2 h)"],
+ note:["晚上螢火蟲洞。","Glowworm caves in the evening."],
+ s:[{n:["蒂阿瑙螢火蟲洞","Te Anau Glowworm Caves"],q:"Te Anau Glowworm Caves",ll:[-45.418,167.718]},
+ {n:["住宿：Te Anau Holiday House","Stay: Te Anau Holiday House"],q:"Te Anau Holiday House",ll:[-45.414,167.72],stay:1}]},
+{d:"2/8",w:["一","Mon"],t:["米佛峽灣路","Milford Road"],
+ note:["11:00 前出發，15:25 前到碼頭，15:55 遊船。","Leave by 11:00, at the wharf by 15:25, cruise 15:55."],
+ s:[{n:["鏡湖 Mirror Lakes","Mirror Lakes"],q:"Mirror Lakes, Milford Road",ll:[-45.047,167.995]},
+ {n:["荷馬隧道","Homer Tunnel"],q:"Homer Tunnel",ll:[-44.7647,167.9969]},
+ {n:["米佛峽灣遊船碼頭","Milford Sound cruise terminal"],q:"Milford Sound Visitor Terminal",ll:[-44.6713,167.9254],tm:"15:55",star:1},
+ {n:["住宿：Te Anau Holiday House","Stay: Te Anau Holiday House"],q:"Te Anau Holiday House",ll:[-45.414,167.72],stay:1}]},
+{d:"2/9",w:["二","Tue"],t:["蒂阿瑙 → 哈斯特山口 → 法蘭士約瑟夫（約 7 小時）","Te Anau → Haast Pass → Franz Josef (~7 h)"],
+ note:["長途日，早點出發。Haast 之後加油站少。","Long day — start early. Few fuel stops after Haast."],
+ s:[{n:["Blue Pools","Blue Pools"],q:"Blue Pools Track car park, Haast Pass",ll:[-44.1594,169.2808]},
+ {n:["Thunder Creek Falls","Thunder Creek Falls"],q:"Thunder Creek Falls",ll:[-44.087,169.371]},
+ {n:["住宿：Rainforest Retreat","Stay: Rainforest Retreat"],q:"Rainforest Retreat Franz Josef",ll:[-43.3876,170.1824],stay:1}]},
+{d:"2/10",w:["三","Wed"],t:["★ 冰川直升機健行","★ Glacier heli-hike"],
+ note:["報到 7:45、8:00 出發。下午泡溫泉、傍晚 Lake Matheson。","Check in 7:45 for 8:00. Hot pools afternoon, Lake Matheson at dusk."],
+ s:[{n:["Franz Josef Glacier Guides","Franz Josef Glacier Guides"],q:"Franz Josef Glacier Guides",ll:[-43.3874,170.1833],tm:"7:45",star:1},
+ {n:["Glacier Hot Pools","Glacier Hot Pools"],q:"Glacier Hot Pools Franz Josef",ll:[-43.3868,170.1838]},
+ {n:["馬森湖 Lake Matheson","Lake Matheson"],q:"Lake Matheson",ll:[-43.4416,169.9672],tm:["傍晚","Dusk"]},
+ {n:["住宿：Rainforest Retreat","Stay: Rainforest Retreat"],q:"Rainforest Retreat Franz Josef",ll:[-43.3876,170.1824],stay:1}]},
+{d:"2/11",w:["四","Thu"],t:["法蘭士約瑟夫 → 霍基蒂卡 → 普納凱基","Franz Josef → Hokitika → Punakaiki"],
+ note:["鬆餅岩最好在漲潮時去看噴水洞。","See Pancake Rocks blowholes near high tide."],
+ s:[{n:["霍基蒂卡峽谷","Hokitika Gorge"],q:"Hokitika Gorge",ll:[-42.9554,171.0144]},
+ {n:["霍基蒂卡小鎮","Hokitika"],q:"Hokitika, New Zealand",ll:[-42.717,170.964]},
+ {n:["鬆餅岩 Pancake Rocks","Pancake Rocks"],q:"Pancake Rocks and Blowholes, Punakaiki",ll:[-42.1146,171.3266]},
+ {n:["住宿：Cliffscapes","Stay: Cliffscapes"],q:"Cliffscapes Punakaiki",ll:[-42.13,171.335],stay:1}]},
+{d:"2/12",w:["五","Fri"],t:["亞瑟隘口 → 基督城","Arthur's Pass → Christchurch"],
+ note:["Devil's Punchbowl 來回約 1 小時。晚上河畔市場。","Devil's Punchbowl ~1 h return. Riverside Market in the evening."],
+ s:[{n:["Devil's Punchbowl 瀑布","Devil's Punchbowl Falls"],q:"Devil's Punchbowl Falls, Arthur's Pass",ll:[-42.931,171.564]},
+ {n:["城堡山 Castle Hill","Castle Hill / Kura Tāwhiti"],q:"Castle Hill Kura Tawhiti",ll:[-43.2252,171.727]},
+ {n:["基督城植物園","Christchurch Botanic Gardens"],q:"Christchurch Botanic Gardens",ll:[-43.5307,172.6206]},
+ {n:["河畔市場 Riverside Market","Riverside Market"],q:"Riverside Market Christchurch",ll:[-43.5322,172.6343]},
+ {n:["住宿：The Observatory Hotel","Stay: The Observatory Hotel"],q:"The Observatory Hotel Christchurch",ll:[-43.531,172.626],stay:1}]},
+{d:"2/13",w:["六","Sat"],t:["還車 → 回台北","Return car → fly home"],
+ note:["11:30 前還車。CX126 CHC 14:20 → HKG 20:50；CX408 23:10 → TPE 2/14 00:50","Return the car by 11:30. CX126 CHC 14:20 → HKG 20:50; CX408 23:10 → TPE 2/14 00:50"],
+ s:[{n:["基督城機場（還車）","Christchurch Airport (car return)"],q:"Christchurch Airport",ll:[-43.4894,172.5322],tm:"11:30",star:1}]}
+];
+
+const EXTRA={"Christchurch Airport": {"d": ["取／還車。機場附近有超市，先買水和零食。", "Car pickup/return. Grab water and snacks at a supermarket nearby."], "dr": ["⛔ 機場管制空域，禁飛。", "⛔ Airport controlled airspace — no flying."]}, "Geraldine, New Zealand": {"d": ["坎特伯雷平原上的小鎮，適合休息、喝咖啡、加油。", "Small town on the Canterbury Plains — coffee, fuel and a break."], "dr": null}, "Church of the Good Shepherd, Lake Tekapo": {"d": ["湖邊的石砌小教堂。📸 傍晚從教堂側面拍湖色和遠山；夜裡拍教堂加銀河是經典構圖。夏天湖邊開滿魯冰花。", "Stone chapel on the lakeshore. 📸 Late afternoon from the side for the turquoise lake and peaks; at night shoot the church under the Milky Way. Lupins bloom along the shore in summer."], "dr": ["⛔ 教堂官方禁止空拍：這裡和整個 Tekapo 村都在機場 4 公里範圍內。", "⛔ No drones: the church and the whole village are within 4 km of Tekapo aerodrome."]}, "Dark Sky Project, Lake Tekapo": {"d": ["世界級的暗空保護區。夏天天黑得晚，觀星活動大約 22:30 之後。📸 帶腳架，手機開夜景模式也能拍到銀河。", "International Dark Sky Reserve. Summer nights start late (tours ~22:30+). 📸 Bring a tripod; phone night mode can catch the Milky Way."], "dr": null}, "Lakeview Tekapo, 6 Lochinver Ave, Lake Tekapo": {"d": ["住宿。", "Stay."], "dr": null}, "Peter's Lookout, Mount Cook Road": {"d": ["沿普卡基湖往庫克山的路上最經典的觀景點。📸 這裡拍得到牛奶藍的湖面接上庫克山，也可以站在公路中線拍延伸到雪山的直路，但要小心車。", "The classic viewpoint above Lake Pukaki on the road to Mt Cook. 📸 Milky-blue lake with Aoraki behind; the road-leading-to-the-mountain shot (mind the traffic)."], "dr": ["⚠️ 這裡不在國家公園內，但湖岸土地屬於 Meridian 電力公司，起飛前先用 AirShare 確認空域。", "⚠️ Outside the national park; lake land is Meridian's. Check AirShare before flying."]}, "White Horse Hill Campground, Aoraki Mount Cook": {"d": ["Hooker Valley Track 起點，來回約 10 公里、3 小時，路很平。📸 3 座吊橋、步道盡頭的 Hooker 湖（湖面常漂浮冰山）正對庫克山。清晨光線最好、人最少。", "Start of the Hooker Valley Track (10 km return, ~3 h, flat). 📸 Three swing bridges and Hooker Lake (often with icebergs) facing Aoraki — best and quietest at dawn."], "dr": ["⛔ 庫克山國家公園不發給一般遊客空拍許可，不能飛。", "⛔ Aoraki/Mt Cook National Park: no recreational drone permits."]}, "Tasman Glacier View Track car park": {"d": ["約 20–30 分鐘上坡的短步道，可以俯瞰紐西蘭最長的 Tasman 冰河和冰河湖。📸 從高處拍湖面上漂浮的冰山。", "20–30 min climb to views over NZ's longest glacier and its iceberg lake. 📸 Icebergs floating below from the lookout."], "dr": ["⛔ 國家公園內，禁飛。", "⛔ National park — no drones."]}, "Alps Motel Apartment Twizel": {"d": ["住宿。", "Stay."], "dr": ["⚠️ Twizel 小鎮在 Pukaki 機場和醫療直升機坪的 4 公里範圍附近，先查 AirShare。", "⚠️ Twizel is near Pukaki Airport and a medical helipad 4 km zone — check AirShare."]}, "Sealy Tarns Track, Aoraki Mount Cook": {"d": ["要爬約 2,200 級階梯，上去約 2–3 小時，很累但非常值得。📸 從高山小湖拍胡克谷和庫克山的倒影。", "~2,200 steps up (2–3 h) — tough but worth it. 📸 Alpine tarns reflecting Aoraki over the Hooker Valley."], "dr": ["⛔ 國家公園內，禁飛。", "⛔ National park — no drones."]}, "Mt Cook Alpine Salmon Lake Pukaki": {"d": ["湖邊的鮭魚店，生魚片很新鮮，直接看得到湖和庫克山。", "Salmon shop by the lake — fresh sashimi with Aoraki views."], "dr": ["⚠️ 普卡基湖岸可能適合空拍，拍得到湖色漸層，但先用 AirShare 查空域，也不要飛到人群上方。", "⚠️ Pukaki shoreline can work for lake-colour shots; check AirShare and keep clear of people."]}, "Lindis Pass Lookout": {"d": ["金黃色的草丘連綿起伏，是南島很有代表性的公路景色。📸 拍公路在草丘間蜿蜒的畫面。", "Rolling golden tussock hills — an iconic South Island road scene. 📸 The road snaking through the hills."], "dr": ["⚠️ 屬於 DOC 保護區，要先申請 DOC 空拍許可（綠區線上申請，當場核發）。", "⚠️ DOC scenic reserve — needs a DOC drone permit (green-zone permits issued online instantly)."]}, "Mount Iron Track, Wanaka": {"d": ["1.5 小時的環線步道，山頂可以 360 度看瓦納卡湖和整個小鎮。📸 夕陽時段最漂亮。", "1.5 h loop with 360° views of Lake Wanaka and town. 📸 Best at sunset."], "dr": ["⚠️ 可能在瓦納卡機場 4 公里範圍附近，先查 AirShare；議會土地也要符合 QLDC 規定。", "⚠️ May be near Wanaka Airport's 4 km zone — check AirShare and QLDC rules."]}, "That Wanaka Tree": {"d": ["長在湖水裡的柳樹，可能是紐西蘭被拍最多次的一棵樹。📸 日出或夕陽、無風時拍倒影；不要踩進水裡或爬樹。", "A willow growing in the lake — possibly NZ's most photographed tree. 📸 Sunrise/sunset with still water for reflections; don't climb it."], "dr": ["⚠️ 距離瓦納卡機場約 10 公里，但湖岸是 QLDC 議會土地，起飛前先查 QLDC 規定和 AirShare；人多時不要飛。", "⚠️ ~10 km from the airport, but the lakefront is QLDC land — check council rules and AirShare; don't fly over crowds."]}, "The Moorings Wanaka": {"d": ["住宿，走路就能到湖邊。", "Stay — walk to the lakefront."], "dr": null}, "Skydive Wanaka": {"d": ["從 15,000 呎跳下，看得到庫克山、瓦納卡湖和 Hawea 湖。📸 建議加購空中攝影師的照片和影片。", "Jump from 15,000 ft over Mt Aspiring, Lakes Wanaka & Hawea. 📸 Add the camera-flyer photo/video package."], "dr": ["⛔ 機場範圍，禁飛。", "⛔ Aerodrome — no flying."]}, "Crown Range Summit": {"d": ["紐西蘭最高的柏油公路，可以俯瞰皇后鎮盆地和箭鎮。📸 往下拍之字形的公路。", "NZ's highest sealed road, overlooking the Wakatipu basin. 📸 Zig-zag road from above."], "dr": ["⛔ Queenstown 機場說明 Crown Range 觀景點在進場航線下方的管制空域，禁飛。", "⛔ Queenstown Airport says the Crown Range lookout is in controlled airspace on the approach path — no flying."]}, "Arrowtown, New Zealand": {"d": ["19 世紀淘金小鎮，有保存下來的老街和華人礦工村遺址。📸 拍老街和河邊的步道。", "19th-century gold-rush town with heritage streets and a Chinese miners' settlement. 📸 Main street and riverside paths."], "dr": ["⚠️ 在 Queenstown 管制空域內或附近，未經航管許可不能飛。", "⚠️ In/near Queenstown controlled airspace — no flying without ATC approval."]}, "Skyline Queenstown": {"d": ["搭纜車上山，可以玩斜坡滑車（luge）。📸 從山頂俯瞰瓦卡蒂普湖和 Remarkables 山脈，傍晚最美。", "Gondola up, ride the luge. 📸 Lake Wakatipu & the Remarkables from the top — best near sunset."], "dr": ["⛔ 皇后鎮在機場管制空域內，禁飛。", "⛔ Queenstown town is controlled airspace — no flying."]}, "Fergburger Queenstown": {"d": ["超有名的大漢堡，可以先在網路上點餐再去拿。", "Famous giant burgers — order ahead online."], "dr": null}, "Queenstown Park Boutique Hotel": {"d": ["住宿。", "Stay."], "dr": null}, "Shotover Jet Queenstown": {"d": ["噴射快艇在峽谷岩壁間高速穿梭、做 360 度旋轉，會濕身。📸 業者有販售船上照片。", "Jet boat blasting through narrow canyons with 360° spins — you'll get wet. 📸 Onboard photos sold by the operator."], "dr": ["⛔ 在管制空域內，禁飛。", "⛔ Controlled airspace — no flying."]}, "Glenorchy, New Zealand": {"d": ["「通往天堂之路」的盡頭：湖邊開車 45 分鐘，風景超美。📸 一定要拍紅色木造船屋（Glenorchy Wharf Shed）和背後的雪山；沿路的 Bennetts Bluff 觀景點也很好拍。", "End of the 'road to paradise' (45 min lakeside drive). 📸 The red Glenorchy wharf shed with mountains behind; Bennetts Bluff lookout on the way."], "dr": ["⚠️ 小鎮旁有小機場，有 4 公里限制，飛前先查 AirShare；碼頭一帶是 QLDC 議會土地。", "⚠️ Glenorchy has an airstrip (4 km rule) — check AirShare; the wharf area is QLDC land."]}, "Te Anau Glowworm Caves": {"d": ["搭船進入洞穴，在黑暗中看滿天的藍色螢火蟲。📸 洞內禁止拍照。", "Boat into the caves to see glowworms in the dark. 📸 No photos allowed inside."], "dr": null}, "Te Anau Holiday House": {"d": ["住宿。", "Stay."], "dr": null}, "Mirror Lakes, Milford Road": {"d": ["木棧道走 5 分鐘。📸 無風的早晨可以拍到山的完美倒影，水面上的告示牌也會倒映出 'Mirror Lakes' 字樣。", "5-min boardwalk. 📸 On still mornings perfect mountain reflections (the sign reads correctly in the reflection)."], "dr": ["⛔ 峽灣國家公園目前已不再發空拍許可，禁飛。", "⛔ Fiordland NP is not issuing drone permits — no flying."]}, "Homer Tunnel": {"d": ["穿山的單線隧道，入口前的高山景色很壯觀，常常會看到 Kea 鸚鵡。📸 拍隧道口和兩旁的冰河地形；不要餵 Kea。", "Single-lane tunnel through the Darran Mountains; dramatic alpine scenery and cheeky kea. 📸 Tunnel portal and glacial walls; don't feed the kea."], "dr": ["⛔ 國家公園內，禁飛。", "⛔ National park — no drones."]}, "Milford Sound Visitor Terminal": {"d": ["搭遊船進峽灣，看麥特峰（Mitre Peak），船還會開到瀑布底下讓你淋濕。📸 拍麥特峰的倒影；下雨天反而會多出幾百條瀑布。", "Cruise to see Mitre Peak and get soaked under waterfalls. 📸 Mitre Peak reflections; rainy days bring hundreds of waterfalls."], "dr": ["⛔ 國家公園內，禁飛。", "⛔ National park — no drones."]}, "Blue Pools Track car park, Haast Pass": {"d": ["走 15 分鐘森林步道、過兩座吊橋，就能看到冰川水匯成的藍綠色深潭。📸 從吊橋往下拍清澈的藍水和鱒魚。注意沙蠅很多。", "15-min forest walk and swing bridges to glacier-blue pools. 📸 Shoot down from the bridge into clear blue water and trout. Bring sandfly repellent."], "dr": ["⛔ Mt Aspiring 國家公園內，禁飛。", "⛔ Mt Aspiring NP — no drones."]}, "Thunder Creek Falls": {"d": ["路邊走 5 分鐘就到，96 公尺高的瀑布。📸 適合用慢速快門拍絲絹般的水流。", "5-min walk to a 96 m waterfall. 📸 Slow shutter for silky water."], "dr": ["⛔ 國家公園內，禁飛。", "⛔ National park — no drones."]}, "Rainforest Retreat Franz Josef": {"d": ["住宿，在雨林裡。", "Stay — set in rainforest."], "dr": null}, "Franz Josef Glacier Guides": {"d": ["搭直升機上冰河，在藍冰洞和冰縫間健行。📸 拍藍冰、冰洞，還有從直升機上往下看的冰河全景。", "Helicopter up onto the glacier to hike among blue ice caves and crevasses. 📸 Blue ice, caves, and aerial views from the heli."], "dr": ["⛔ 冰河在國家公園內，而且直升機很多，禁飛。", "⛔ National park with busy heli traffic — no drones."]}, "Glacier Hot Pools Franz Josef": {"d": ["雨林裡的露天溫泉，健行後放鬆。", "Rainforest hot pools — perfect after the hike."], "dr": null}, "Lake Matheson": {"d": ["環湖步道約 1.5 小時。📸 無風時湖面像鏡子，能拍到庫克山和 Tasman 山的倒影；清晨或傍晚最好，Reflection Island 觀景點最經典。", "1.5 h loop. 📸 Mirror reflections of Aoraki & Mt Tasman on calm mornings/evenings — the 'Reflection Island' viewpoint is the classic."], "dr": ["⛔ 國家公園內，空拍需要 DOC 許可，一般不建議申請。", "⛔ Westland NP area — DOC permit required; not recommended."]}, "Hokitika Gorge": {"d": ["牛奶藍綠色的河水穿過峽谷，有吊橋。📸 晴天時從吊橋和河邊的石灘拍水色最漂亮。", "Milky turquoise river through a gorge with a swing bridge. 📸 Best colour on sunny days from the bridge and riverbank."], "dr": ["⚠️ 屬於 DOC 保護區，要先申請 DOC 空拍許可。", "⚠️ DOC scenic reserve — needs a DOC drone permit."]}, "Hokitika, New Zealand": {"d": ["綠玉（pounamu）之鄉，可以買玉石。📸 海灘上有漂流木拼成的 Hokitika 字樣，夕陽時很好拍。", "Pounamu (greenstone) town. 📸 The driftwood 'HOKITIKA' sign on the beach at sunset."], "dr": ["⚠️ 小鎮在 Hokitika 機場 4 公里範圍內，起飛前先查 AirShare。", "⚠️ Town is within 4 km of Hokitika Airport — check AirShare."]}, "Pancake Rocks and Blowholes, Punakaiki": {"d": ["像一疊疊鬆餅的石灰岩層，漲潮時海水會從噴水洞噴出。📸 約 20 分鐘的環形步道，夕陽時段很好拍；先查好當天的潮汐時間。", "Layered 'pancake' limestone; blowholes erupt near high tide. 📸 20-min loop; great at sunset — check tide times."], "dr": ["⛔ Paparoa 國家公園內，禁飛。", "⛔ Paparoa NP — no drones."]}, "Cliffscapes Punakaiki": {"d": ["住宿，可以看海。", "Stay — ocean views."], "dr": null}, "Devil's Punchbowl Falls, Arthur's Pass": {"d": ["來回約 1 小時，131 公尺高的瀑布。📸 從瀑布前的觀景台往上拍。", "1 h return to a 131 m waterfall. 📸 Shoot upward from the viewing platform."], "dr": ["⛔ Arthur's Pass 國家公園內，禁飛。", "⛔ Arthur's Pass NP — no drones."]}, "Castle Hill Kura Tawhiti": {"d": ["草原上散落著巨大的石灰岩，像外星世界。📸 用廣角拍人站在巨石之間，傍晚光影最立體。", "Giant limestone boulders on tussock hills. 📸 Wide shots with people among the rocks; golden hour gives the best shadows."], "dr": ["⚠️ 屬於 DOC 保護區，要先申請 DOC 空拍許可；這裡也是毛利族聖地，請尊重。", "⚠️ DOC conservation area — permit needed; also a site sacred to Ngāi Tahu, be respectful."]}, "Christchurch Botanic Gardens": {"d": ["雅芳河畔的大型植物園，可以搭平底船（punting）遊河。📸 拍玫瑰園和河上撐篙的平底船。", "Big gardens on the Avon; try punting. 📸 Rose garden and punts on the river."], "dr": ["⚠️ 市區在基督城機場的管制空域範圍，基本上不能飛，先查 AirShare。", "⚠️ City is under Christchurch controlled airspace — generally no flying; check AirShare."]}, "Riverside Market Christchurch": {"d": ["室內美食市集，晚餐的好選擇。", "Indoor food market — great for dinner."], "dr": null}, "The Observatory Hotel Christchurch": {"d": ["住宿，就在藝術中心旁邊。", "Stay — next to the Arts Centre."], "dr": null}};
+
+const UI={ttl:["紐西蘭南島自駕 2027","NZ South Island Road Trip 2027"],ov:["總覽","Overview"],day:["第{n}天","Day {n}"],
+ drh:["🚁 紐西蘭空拍規則（出發前必看）","🚁 NZ drone rules (read before you go)"],
+ dr:[["每次起飛前用 <b>AirShare</b> App／網站查空域並登記飛行。","最高 120 公尺、全程目視、只在白天飛。","不能飛越人群或私人土地上空，除非取得同意。","機場／直升機坪 4 公里內、管制空域（皇后鎮、基督城市區）禁飛。","<b>國家公園</b>（庫克山、峽灣、Mt Aspiring、Paparoa、Arthur's Pass）基本上不發許可，等於禁飛。","DOC 保護區（Lindis Pass、Hokitika Gorge、Castle Hill）要先在 DOC 網站申請許可，綠區線上即時核發。","議會土地（瓦納卡湖岸等）依各地議會規定。","野鳥至少保持 50 公尺距離。"],
+ ["Check airspace and log every flight on <b>AirShare</b>.","Max 120 m, visual line of sight, daylight only.","No flying over people or private land without consent.","No flying within 4 km of aerodromes/helipads or in controlled airspace (Queenstown, Christchurch city).","<b>National parks</b> (Aoraki, Fiordland, Mt Aspiring, Paparoa, Arthur's Pass) — effectively off-limits.","DOC reserves (Lindis Pass, Hokitika Gorge, Castle Hill) need a DOC permit — green zones issued online instantly.","Council land (e.g. Wanaka lakefront) follows local council rules.","Stay 50 m+ away from birds."]],
+ nav:["導航","Navigate"],from:["出發：","Start: "],route:["🗺 整天路線開啟 Google Maps","🗺 Open day route in Google Maps"],
+ ovh:["行程總覽","Trip overview"],ovm:["1/30 – 2/14 · 基督城進出 · 15 天","Jan 30 – Feb 14 · in/out Christchurch · 15 days"],
+ foot:["點「導航」會開啟 Google Maps App 開始導航。點景點卡片可在地圖上單獨顯示，再點一次回到整天路線。","“Navigate” opens the Google Maps app with directions. Tap a stop card to show it on the map; tap again for the day route."]};
+let L=0;try{L=+localStorage.getItem('nzlang')||0}catch(e){}
+const K=100*Math.cos(44*Math.PI/180);
+const P=([la,lo])=>[(lo-166.3)*K,(Math.abs(la)-40.35)*100];
+const enc=encodeURIComponent;
+const navURL=q=>`https://www.google.com/maps/dir/?api=1&destination=${enc(q+', New Zealand')}&travelmode=driving`;
+function routeURL(st){const u=[];st.forEach(s=>{if(u[u.length-1]!==s.q)u.push(s.q)});
+ if(u.length<2)return navURL(u[0]);const nz=x=>x+', New Zealand';
+ let r=`https://www.google.com/maps/dir/?api=1&origin=${enc(nz(u[0]))}&destination=${enc(nz(u[u.length-1]))}&travelmode=driving`;
+ const w=u.slice(1,-1).slice(0,9);if(w.length)r+=`&waypoints=${enc(w.map(nz).join('|'))}`;return r}
+const T=x=>Array.isArray(x)?x[L]:x;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function startOf(c){if(c<2)return null;const p=DAYS[c-2].s[DAYS[c-2].s.length-1],f=DAYS[c-1].s[0];return p.q===f.q?null:p}
+function cur(){const m=location.hash.match(/^#day-(\d+)$/);return m&&+m[1]>=1&&+m[1]<=DAYS.length?+m[1]:0}
+function tabs(c){document.getElementById('tabs').innerHTML=`<a href="#overview" class="${c?'':'on'}">${UI.ov[L]}<small>1/30–2/14</small></a>`+
+ DAYS.map((d,i)=>`<a href="#day-${i+1}" class="${c===i+1?'on':''}">${UI.day[L].replace('{n}',i+1)}<small>${d.d} ${d.w[L]}</small></a>`).join('');
+ const on=document.querySelector('.tabs a.on');on&&on.scrollIntoView({inline:'center',block:'nearest'})}
+function list(c){const el=document.getElementById('list');
+ if(!c){el.innerHTML=`<div class="dayhead"><h2>${UI.ovh[L]}</h2><div class="meta">${UI.ovm[L]}</div></div><div class="ov" style="margin-top:12px">`+
+  DAYS.map((d,i)=>`<a href="#day-${i+1}"><b>D${i+1}<br><span style="font-weight:400;color:var(--mute);font-size:12px">${d.d} ${d.w[L]}</span></b><span>${esc(d.t[L])}</span></a>`).join('')+`</div><div class="drbox"><h3>${UI.drh[L]}</h3><ul>${UI.dr[L].map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="foot">${UI.foot[L]}</div>`;return}
+ const d=DAYS[c-1];
+ const so=startOf(c);el.innerHTML=`<div class="dayhead"><h2>${UI.day[L].replace('{n}',c)} · ${d.d}（${d.w[L]}）</h2><div class="meta">${esc(d.t[L])}</div></div>
+ <div class="note">${esc(d.note[L])}</div>`+(so?`<div class="stop" data-i="-1" style="opacity:.75"><div class="num" style="background:var(--mute)">▶</div><div class="sbody"><div class="sname">${esc(UI.from[L])}${esc(T(so.n).replace(/^住宿：|^Stay: /,''))}</div></div></div>`:'')+
+ d.s.map((s,i)=>`<div class="stop${s.stay?' stay':''}${s.star?' star':''}" data-i="${i}"><div class="num">${i+1}</div><div class="sbody"><div class="sname">${esc(T(s.n))}</div>${s.tm?`<div class="stime">🕒 ${esc(T(s.tm))}</div>`:''}${(X=EXTRA[s.q])&&!/^(住宿。|Stay\.)$/.test(X.d[L])?`<div class="sdesc">${esc(X.d[L])}</div>`:''}${X&&X.dr?`<div class="sdr">🚁 ${esc(X.dr[L])}</div>`:''}</div><a class="nav" href="${navURL(s.q)}" target="_blank" rel="noopener">➤ ${UI.nav[L]}</a></div>`).join('')+
+ (d.s.length>1||startOf(c)?`<a class="route" href="${routeURL((startOf(c)?[startOf(c)]:[]).concat(d.s))}" target="_blank" rel="noopener">${UI.route[L]}</a>`:'')+`<div class="foot">${UI.foot[L]}</div>`;
+ el.querySelectorAll('.stop').forEach(n=>{n.onclick=e=>{if(e.target.closest('a'))return;const i=+n.dataset.i;focus=focus===i?-1:i;hi(focus);map(cur())}})}
+let focus=-1,X;
+function map(c){const f=document.getElementById('gmap');const hl=L?'en':'zh-TW';const nz=q=>enc(q+', New Zealand');let u;
+ if(!c){u=`https://www.google.com/maps?q=${enc('South Island, New Zealand')}&z=7&hl=${hl}&output=embed`}
+ else{const d=DAYS[c-1];if(focus>=0&&d.s[focus]){u=`https://www.google.com/maps?q=${nz(d.s[focus].q)}&z=13&hl=${hl}&output=embed`}
+  else{const so=startOf(c);const st=(so?[so]:[]).concat(d.s);const q=[];st.forEach(s=>{if(q[q.length-1]!==s.q)q.push(s.q)});
+   u=q.length<2?`https://www.google.com/maps?q=${nz(q[0])}&z=12&hl=${hl}&output=embed`:`https://www.google.com/maps?saddr=${nz(q[0])}&daddr=${q.slice(1).map(nz).join('+to:')}&hl=${hl}&output=embed`}}
+ if(f.getAttribute('src')!==u)f.setAttribute('src',u)}
+function hi(i){document.querySelectorAll('.stop').forEach((n,j)=>n.classList.toggle('hl',j===i))}
+function render(){const c=cur();document.documentElement.lang=L?'en':'zh-Hant';document.getElementById('ttl').textContent=UI.ttl[L];document.title=UI.ttl[L];
+ document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',+b.dataset.l===L));tabs(c);list(c);map(c)}
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>{L=+b.dataset.l;try{localStorage.setItem('nzlang',L)}catch(e){}render()});
+window.addEventListener('hashchange',()=>{focus=-1;render();window.scrollTo(0,0)});
+render();
+</script>
+</body>
+</html>
